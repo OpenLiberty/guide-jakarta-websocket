@@ -33,9 +33,9 @@ public class SystemLoadScheduler {
     @PostConstruct
     public void init() {
         try {
-        	  // tag::systemClient[]
+            // tag::systemClient[]
             client = new SystemClient(new URI("ws://localhost:9081/systemLoad"));
-        	  // end::systemClient[]
+            // end::systemClient[]
         } catch (Exception e) {
             e.printStackTrace();
         }
