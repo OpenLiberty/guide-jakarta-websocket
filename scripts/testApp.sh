@@ -25,11 +25,10 @@ mvn -Dhttp.keepAlive=false \
     -pl system failsafe:integration-test
 
 sleep 10
-cat frontend/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log | grep loadAverage || exit 1
-cat frontend/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log | grep memoryUsage || exit 1
+grep loadAverage frontend/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1
+grep memoryUsage frontend/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1
 
 mvn -ntp -pl system liberty:stop
 mvn -ntp -pl frontend liberty:stop
 
 mvn -ntp failsafe:verify
-
