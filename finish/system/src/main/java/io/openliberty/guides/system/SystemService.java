@@ -91,8 +91,8 @@ public class SystemService {
                 long heapUsed = memBean.getHeapMemoryUsage().getUsed();
                 builder.add("memoryUsage", Double.valueOf(heapUsed * 100.0 / heapMax ));
             }
-            JsonObject systemLoad = builder.build();
             // tag::sendToAllSessions[]
+            JsonObject systemLoad = builder.build();
             sendToAllSessions(systemLoad);
             // end::sendToAllSessions[]
         } catch (Exception e) {
