@@ -22,7 +22,7 @@ mvn -ntp -pl frontend liberty:start
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -pl system failsafe:integration-test
+    -ntp -pl system failsafe:integration-test
 
 sleep 10
 grep loadAverage frontend/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1
