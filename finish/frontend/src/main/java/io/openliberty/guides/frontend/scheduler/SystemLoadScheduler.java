@@ -25,7 +25,7 @@ public class SystemLoadScheduler {
 
     private SystemClient client;
     // tag::messages[]
-    static final private String[] MESSAGES = new String[] {
+    private static final String[] MESSAGES = new String[] {
         "loadAverage", "memoryUsage", "both" };
     // end::messages[]
 
