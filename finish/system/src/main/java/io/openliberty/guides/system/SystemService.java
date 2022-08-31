@@ -39,10 +39,10 @@ public class SystemService {
 
     private static Set<Session> sessions = new HashSet<>();
 
-    private static final OperatingSystemMXBean OSBEAN =
+    private static final OperatingSystemMXBean OS =
         ManagementFactory.getOperatingSystemMXBean();
 
-    private static final MemoryMXBean MEMBEAN =
+    private static final MemoryMXBean MEM =
         ManagementFactory.getMemoryMXBean();
 
     // tag::sendToAllSessionseMethod[]
@@ -81,14 +81,14 @@ public class SystemService {
             if (option.equalsIgnoreCase("loadAverage")
                 || option.equalsIgnoreCase("both")) {
             // end::loadAverage[]
-                builder.add("loadAverage", Double.valueOf(OSBEAN.getSystemLoadAverage()));
+                builder.add("loadAverage", Double.valueOf(OS.getSystemLoadAverage()));
             }
             // tag::memoryUsageOrBoth[]
             if (option.equalsIgnoreCase("memoryUsage")
                 || option.equalsIgnoreCase("both")) {
             // end::memoryUsageOrBoth[]
-                long heapMax = MEMBEAN.getHeapMemoryUsage().getMax();
-                long heapUsed = MEMBEAN.getHeapMemoryUsage().getUsed();
+                long heapMax = MEM.getHeapMemoryUsage().getMax();
+                long heapUsed = MEM.getHeapMemoryUsage().getUsed();
                 builder.add("memoryUsage", Double.valueOf(heapUsed * 100.0 / heapMax));
             }
             // tag::sendToAllSessions[]
