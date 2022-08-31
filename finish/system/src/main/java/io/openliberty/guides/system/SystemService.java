@@ -31,18 +31,18 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
 // tag::serverEndpoint[]
-@ServerEndpoint( value = "/systemLoad",
-                 decoders = { SystemLoadDecoder.class },
-                 encoders = { SystemLoadEncoder.class } )
-// end::serverEndpoint[]                 
+@ServerEndpoint(value = "/systemLoad",
+                decoders = { SystemLoadDecoder.class },
+                encoders = { SystemLoadEncoder.class })
+// end::serverEndpoint[]
 public class SystemService {
 
     private static Set<Session> sessions = new HashSet<>();
 
-    private static final OperatingSystemMXBean osBean =
+    private static final OperatingSystemMXBean OS =
         ManagementFactory.getOperatingSystemMXBean();
 
-    private static final MemoryMXBean memBean =
+    private static final MemoryMXBean MEM =
         ManagementFactory.getMemoryMXBean();
 
     // tag::sendToAllSessionseMethod[]
@@ -66,33 +66,33 @@ public class SystemService {
         sessions.add(session);
     }
     // end::onOpenMethod[]
-    
+
     // tag::onMessageMethod[]
     // tag::onMessage[]
     @OnMessage
     // end::onMessage[]
     public void onMessage(String option, Session session) {
-        System.out.println("Server received message \"" + option + "\" " +
-                           "from session: " + session.getId());
+        System.out.println("Server received message \"" + option + "\" "
+                            + "from session: " + session.getId());
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("time", Calendar.getInstance().getTime().toString());
             // tag::loadAverage[]
-            if (option.equalsIgnoreCase("loadAverage") ||
+            if (option.equalsIgnoreCase("loadAverage")
+                || option.equalsIgnoreCase("both")) {
             // end::loadAverage[]
-                option.equalsIgnoreCase("both")) {
-                builder.add("loadAverage", Double.valueOf(osBean.getSystemLoadAverage()));
+                builder.add("loadAverage", Double.valueOf(OS.getSystemLoadAverage()));
             }
             // tag::memoryUsageOrBoth[]
-            if (option.equalsIgnoreCase("memoryUsage") ||
-                option.equalsIgnoreCase("both")) {
+            if (option.equalsIgnoreCase("memoryUsage")
+                || option.equalsIgnoreCase("both")) {
             // end::memoryUsageOrBoth[]
-                long heapMax = memBean.getHeapMemoryUsage().getMax();
-                long heapUsed = memBean.getHeapMemoryUsage().getUsed();
-                builder.add("memoryUsage", Double.valueOf(heapUsed * 100.0 / heapMax ));
+                long heapMax = MEM.getHeapMemoryUsage().getMax();
+                long heapUsed = MEM.getHeapMemoryUsage().getUsed();
+                builder.add("memoryUsage", Double.valueOf(heapUsed * 100.0 / heapMax));
             }
-            JsonObject systemLoad = builder.build();
             // tag::sendToAllSessions[]
+            JsonObject systemLoad = builder.build();
             sendToAllSessions(systemLoad);
             // end::sendToAllSessions[]
         } catch (Exception e) {
@@ -106,8 +106,8 @@ public class SystemService {
     @OnClose
     // end::onClose[]
     public void onClose(Session session, CloseReason closeReason) {
-        System.out.println("Session " + session.getId() +
-                           " was closed with reason " + closeReason.getCloseCode());
+        System.out.println("Session " + session.getId()
+                           + " was closed with reason " + closeReason.getCloseCode());
         sessions.remove(session);
     }
     // end::onCloseMethod[]
@@ -116,7 +116,7 @@ public class SystemService {
     @OnError
     // end::onError[]
     public void onError(Session session, Throwable throwable) {
-        System.out.println("WebSocket error for " + session.getId() + " " +
-                           throwable.getMessage());
+        System.out.println("WebSocket error for " + session.getId() + " "
+                           + throwable.getMessage());
     }
 }

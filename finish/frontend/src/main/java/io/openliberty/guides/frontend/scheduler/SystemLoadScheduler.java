@@ -23,9 +23,9 @@ import jakarta.ejb.Singleton;
 @Singleton
 public class SystemLoadScheduler {
 
-    private SystemClient client; 
+    private SystemClient client;
     // tag::messages[]
-    final static private String[] messages = new String[] {
+    private static final String[] MESSAGES = new String[] {
         "loadAverage", "memoryUsage", "both" };
     // end::messages[]
 
@@ -33,9 +33,9 @@ public class SystemLoadScheduler {
     @PostConstruct
     public void init() {
         try {
-        	  // tag::systemClient[]
+            // tag::systemClient[]
             client = new SystemClient(new URI("ws://localhost:9081/systemLoad"));
-        	  // end::systemClient[]
+            // end::systemClient[]
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class SystemLoadScheduler {
     // tag::sendSystemLoad[]
     public void sendSystemLoad() {
         Random r = new Random();
-        client.sendMessage(messages[r.nextInt(3)]);
+        client.sendMessage(MESSAGES[r.nextInt(MESSAGES.length)]);
     }
     // end::sendSystemLoad[]
 
