@@ -223,7 +223,7 @@ After you see the following message, your application server in dev mode is read
 ----
 
 // File 0
-SystemClient.java
+frontend/SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java[]
@@ -298,7 +298,7 @@ Visit http://localhost:9080 URL again on a different tab or browser and verify t
 ----
 
 // File 0
-SystemClient.java
+system/test/SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
