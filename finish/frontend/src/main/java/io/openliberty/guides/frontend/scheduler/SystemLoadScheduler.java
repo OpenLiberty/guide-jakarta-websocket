@@ -48,7 +48,7 @@ public class SystemLoadScheduler {
     // tag::sendSystemLoad[]
     public void sendSystemLoad() {
         Random r = new Random();
-        client.sendMessage(MESSAGES[r.nextInt(3)]);
+        client.sendMessage(MESSAGES[r.nextInt(MESSAGES.length)]);
     }
     // end::sendSystemLoad[]
 
