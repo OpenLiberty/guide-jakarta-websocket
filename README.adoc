@@ -147,7 +147,7 @@ Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerE
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason of closing connection and removes the closing session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with time, system load and memory usage data, and boardcast the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the Websocket API to boardcast the message to all client sessions.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with system load and memory usage data, and send out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the Websocket API to boardcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
