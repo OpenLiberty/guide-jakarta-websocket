@@ -306,7 +306,7 @@ include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClien
 
 The `SystemClient` class is used to communciate and test the `system` service. Its implementation is similar to the client class from the `frontend` service that you created in the previous section. At the [hotspot=onMessage file=0]`onMessage()` method, decode and verify the message. 
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the SystemServiceIT class.#
 `system/src/test/java/it/io/openliberty/guides/system/SystemServiceIT.java`
