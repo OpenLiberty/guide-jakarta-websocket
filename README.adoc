@@ -34,13 +34,13 @@ Learn how to use Jakarta WebSocket to stream messages between client and server 
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, the clients make connection over to the server by using HTTP. The server can broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
+https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, each client makes a connection over to the server by using HTTP. The server can then broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
 
 The application that you will build in this guide consists of the `frontend` client service and the `system` server service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the `frontend` clients. The following diagram depicts the application that is used in this guide. 
 
 image::architecture.png[Application architecture where system and client services uses Jakarta Websocket API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta WebSocket API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScript `WebSocket` object in HTML file to build WebSocket connection, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use Jakarta WebSocket API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScript `WebSocket` object in HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
@@ -143,11 +143,11 @@ SystemService.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
 
-Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The `@ServerEndpoint` annotation specifies the `value` attribute for the connection endpoint, the `encoders` attribute for the classes to encode messages, and the `decoders` attribute for classes to decode messages. Provide methods that define the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection by annotating them with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
+Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The `@ServerEndpoint`'s `value` attribute specifies the URI for where the endpoint will be deployed, the `encoders` attribute for the classes to encode messages, and the `decoders` attribute for classes to decode messages. Provide methods that define the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection by annotating them with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason of closing connection and removes the closing session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with system load and memory usage data, and send out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -188,7 +188,7 @@ system/server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-The required [hotspot=webSocket file=3]`WebSocket` and [hotspot=jsonB file=3]`jsonb` features for the `system` service have been enabled for you in the `server.xml` configuration file.
+The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features for the `system` service have been enabled for you in the `server.xml` configuration file.
 
 // =================================================================================================
 // Creating the frontend client service
@@ -196,7 +196,7 @@ The required [hotspot=webSocket file=3]`WebSocket` and [hotspot=jsonB file=3]`js
 
 == Creating the frontend client service
 
-In this section, you will create the WebSocket client that communicates with the WebSocket server, the scheduler that uses the WebSocket client to send messages to the server, and an HTML file that uses JavaScrpt `WebSocket` object to build WebSocket connection, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
+In this section, you will create the WebSocket client that communicates with the WebSocket server, the scheduler that uses the WebSocket client to send messages to the server, and an HTML file that uses JavaScript `WebSocket` object to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 On another command-line session, navigate to the `start` directory and run the following goal to start the `frontend` service in dev mode:
 

@@ -43,7 +43,7 @@ public class SystemLoadScheduler {
     // end::postConstruct[]
 
     // tag::schedule[]
-    @Schedule(second = "*/10", minute = "*", hour = "*", persistent = false)
+    @Schedule(second = "*/10", minute = "*", hour = "*")
     // end::schedule[]
     // tag::sendSystemLoad[]
     public void sendSystemLoad() {
