@@ -9,7 +9,7 @@
 :projectid: jakarta-websocket
 :page-layout: guide-multipane
 :page-duration: 25 minutes
-:page-releasedate: 2022-11-08
+:page-releasedate: 2022-12-08
 :page-essential: false
 :page-description: Learn how to use Jakarta WebSocket API to stream messages between client and server services.
 :guide-author: Open Liberty
@@ -36,11 +36,11 @@ Learn how to use Jakarta WebSocket to stream messages between client and server 
 
 https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, each client makes a connection over to the server by using HTTP. The server can then broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
 
-The application that you will build in this guide consists of the `frontend` client service and the `system` server service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the `frontend` clients. The following diagram depicts the application that is used in this guide. 
+The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
 image::architecture.png[Application architecture where system and client services uses Jakarta Websocket API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta WebSocket API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScript `WebSocket` object in HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use Jakarta WebSocket API to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the `system` service in every 10 seconds. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScript `WebSocket` object in HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
