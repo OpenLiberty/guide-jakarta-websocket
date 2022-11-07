@@ -1,4 +1,4 @@
-package io.openliberty.guides.frontend.scheduler;
+package io.openliberty.guides.client.scheduler;
 // tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2022 IBM Corporation and others.

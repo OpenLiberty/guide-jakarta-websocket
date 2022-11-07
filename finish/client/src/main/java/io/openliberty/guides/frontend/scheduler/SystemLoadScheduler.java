@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
-package io.openliberty.guides.frontend.scheduler;
+package io.openliberty.guides.client.scheduler;
 
 import java.net.URI;
 import java.util.Random;

@@ -1,4 +1,4 @@
-<server description="frontend service">
+<server description="client service">
 
     <featureManager>
         <!-- tag::features[] -->
