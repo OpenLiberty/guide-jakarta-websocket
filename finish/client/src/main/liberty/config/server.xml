@@ -18,5 +18,5 @@
         id="defaultHttpEndpoint"
     />
 
-    <webApplication location="guide-jakarta-websocket-frontend.war" contextRoot="/"/>
+    <webApplication location="guide-jakarta-websocket-client.war" contextRoot="/"/>
 </server>
