@@ -1,4 +1,4 @@
-<server description="frontend service">
+<server description="client service">
 
     <featureManager>
         <!-- tag::features[] -->
@@ -18,5 +18,5 @@
         id="defaultHttpEndpoint"
     />
 
-    <webApplication location="guide-jakarta-websocket-frontend.war" contextRoot="/"/>
+    <webApplication location="guide-jakarta-websocket-client.war" contextRoot="/"/>
 </server>

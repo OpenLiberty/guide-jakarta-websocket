@@ -72,11 +72,11 @@ mvn -pl system liberty:run
 
 ```
 
-Next, open another command-line session and run the following command to start the `frontend` service:
+Next, open another command-line session and run the following command to start the `client` service:
 
 [role='command']
 ```
-mvn -pl frontend liberty:run
+mvn -pl client liberty:run
 ```
 
 After you see the following message in both command-line sessions, both your services are ready.
@@ -88,12 +88,12 @@ The defaultServer is ready to run a smarter planet.
 
 Check out the service at the http://localhost:9080 URL. See that the table is being updated for every 10 seconds. 
 
-After you are finished checking out the application, stop both the `system` and `frontend` services by pressing `CTRL+C` in the command-line sessions where you ran them. Alternatively, you can run the following goals from the `finish` directory in another command-line session:
+After you are finished checking out the application, stop both the `system` and `client` services by pressing `CTRL+C` in the command-line sessions where you ran them. Alternatively, you can run the following goals from the `finish` directory in another command-line session:
 
 [role='command']
 ----
 mvn -pl system liberty:stop
-mvn -pl frontend liberty:stop
+mvn -pl client liberty:stop
 ----
 
 // =================================================================================================
@@ -128,7 +128,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-The `system` service is responsible for handling the messages produced by the `frontend` scheduler, building system load messages, and forwarding them to clients.
+The `system` service is responsible for handling the messages produced by the `client` scheduler, building system load messages, and forwarding them to clients.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -191,18 +191,18 @@ include::finish/system/src/main/liberty/config/server.xml[]
 The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features for the `system` service have been enabled for you in the `server.xml` configuration file.
 
 // =================================================================================================
-// Creating the frontend client service
+// Creating the client service
 // =================================================================================================
 
-== Creating the frontend client service
+== Creating the client service
 
 In this section, you will create the WebSocket client that communicates with the WebSocket server, the scheduler that uses the WebSocket client to send messages to the server, and an HTML file that uses JavaScript `WebSocket` object to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
-On another command-line session, navigate to the `start` directory and run the following goal to start the `frontend` service in dev mode:
+On another command-line session, navigate to the `start` directory and run the following goal to start the `client` service in dev mode:
 
 [role='command']
 ```
-mvn -pl frontend liberty:dev
+mvn -pl client liberty:dev
 ```
 
 After you see the following message, your application server in dev mode is ready:
@@ -216,14 +216,14 @@ After you see the following message, your application server in dev mode is read
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemClient class.#
-`frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java`
+`client/src/main/java/io/openliberty/guides/client/scheduler/SystemClient.java`
 ----
 
 // File 0
-frontend/SystemClient.java
+client/SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java[]
+include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemClient.java[]
 ----
 
 Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Provide a method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. The `onMessage()` method annotated with the [hotspot=onMessage file=0]`@OnMessage` annotation that handles messages from the server.
@@ -231,14 +231,14 @@ Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEn
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the SystemLoadScheduler class.#
-`frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java`
+`client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java`
 ----
 
 // File 1
 SystemLoadScheduler.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java[]
+include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java[]
 ----
 
 The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. By using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out message for every 10 seconds.
@@ -248,26 +248,26 @@ Now, create the front-end UI where the images and styles for the UI are provided
 [role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the index.html file.#
-`frontend/src/main/webapp/index.html`
+`client/src/main/webapp/index.html`
 ----
 
 // File 2
 index.html
 [source, javascript, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/webapp/index.html[]
+include::finish/client/src/main/webapp/index.html[]
 ----
 
-The `index.html` front-end UI displays a table, which each row contains a time, system load, and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors.
+The `index.html` front-end UI displays a table, which each row contains a time, system load, and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` object to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors.
 
 // File 3
-frontend/server.xml
+client/server.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/frontend/src/main/liberty/config/server.xml[]
+include::finish/client/src/main/liberty/config/server.xml[]
 ----
 
-The required features for the `frontend` service have been enabled for you in the [hotspot=features file=3]`server.xml` configuration file.
+The required features for the `client` service have been enabled for you in the [hotspot=features file=3]`server.xml` configuration file.
 
 // =================================================================================================
 // Running the application
@@ -275,9 +275,9 @@ The required features for the `frontend` service have been enabled for you in th
 
 == Running the application
 
-Because you are running the `system` and `frontend` services in dev mode, the changes that you made were automatically picked up. You're now ready to check out your application in your browser.
+Because you are running the `system` and `client` services in dev mode, the changes that you made were automatically picked up. You're now ready to check out your application in your browser.
 
-Point your browser to the http://localhost:9080 URL to test out the `frontend` service. See that the table is being updated for every 10 seconds.
+Point your browser to the http://localhost:9080 URL to test out the `client` service. See that the table is being updated for every 10 seconds.
 
 Visit http://localhost:9080 URL again on a different tab or browser and verify that both sessions are being updated for every 10 seconds.
 
@@ -300,7 +300,7 @@ system/test/SystemClient.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
 ----
 
-The `SystemClient` class is used to communicate and test the `system` service. Its implementation is similar to the client class from the `frontend` service that you created in the previous section. At the [hotspot=onMessage file=0]`onMessage()` method, decode and verify the message. 
+The `SystemClient` class is used to communicate and test the `system` service. Its implementation is similar to the client class from the `client` service that you created in the previous section. At the [hotspot=onMessage file=0]`onMessage()` method, decode and verify the message. 
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -334,13 +334,13 @@ Results:
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-When you are done checking out the services, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `frontend` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `frontend` services:
+When you are done checking out the services, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `client` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `client` services:
 // static guide instruction
 ifndef::cloud-hosted[]
 [role="command"]
 ----
 mvn -pl system liberty:stop
-mvn -pl frontend liberty:stop
+mvn -pl client liberty:stop
 ----
 endif::[]
 // cloud hosted instruction
@@ -348,7 +348,7 @@ ifdef::cloud-hosted[]
 ```bash
 cd /home/project/draft-guide-jakarta-websocket/start
 mvn -pl system liberty:stop
-mvn -pl frontend liberty:stop
+mvn -pl client liberty:stop
 ```
 endif::[]
 

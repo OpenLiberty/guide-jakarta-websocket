@@ -11,6 +11,6 @@
 
     <modules>
         <module>system</module>
-        <module>frontend</module>
+        <module>client</module>
     </modules>
 </project>
