@@ -258,7 +258,7 @@ index.html
 include::finish/client/src/main/webapp/index.html[]
 ----
 
-The `index.html` front-end UI displays a table, which each row contains a time, system load, and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors.
+The `index.html` front-end UI displays a table, which each row contains a time, system load, and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` object to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors.
 
 // File 3
 client/server.xml

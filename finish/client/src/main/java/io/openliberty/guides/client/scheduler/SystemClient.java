@@ -1,4 +1,3 @@
-package io.openliberty.guides.client.scheduler;
 // tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2022 IBM Corporation and others.
@@ -11,6 +10,7 @@ package io.openliberty.guides.client.scheduler;
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
+package io.openliberty.guides.client.scheduler;
 
 import java.io.IOException;
 import java.net.URI;
