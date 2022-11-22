@@ -16,4 +16,7 @@
         httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
 
     <webApplication location="guide-jakarta-websocket-system.war" contextRoot="/"/>
+
+    <logging consoleLogLevel="INFO"/>
+
 </server>
