@@ -56,7 +56,7 @@ public class SystemClient {
     // tag::onMessage[]
     @OnMessage
     public void onMessage(String message, Session session) throws Exception {
-    	logger.info("Scheduler received message from the server: " + message);
+        logger.info("Scheduler received message from the server: " + message);
     }
     // end::onMessage[]
 

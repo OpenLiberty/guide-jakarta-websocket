@@ -65,7 +65,7 @@ public class SystemService {
     @OnOpen
     // end::onOpen[]
     public void onOpen(Session session) {
-    	logger.info("Server connected to session: " + session.getId());
+        logger.info("Server connected to session: " + session.getId());
         sessions.add(session);
     }
     // end::onOpenMethod[]
@@ -75,7 +75,7 @@ public class SystemService {
     @OnMessage
     // end::onMessage[]
     public void onMessage(String option, Session session) {
-    	logger.info("Server received message \"" + option + "\" "
+        logger.info("Server received message \"" + option + "\" "
                             + "from session: " + session.getId());
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -109,7 +109,7 @@ public class SystemService {
     @OnClose
     // end::onClose[]
     public void onClose(Session session, CloseReason closeReason) {
-    	logger.info("Session " + session.getId()
+        logger.info("Session " + session.getId()
                            + " was closed with reason " + closeReason.getCloseCode());
         sessions.remove(session);
     }
@@ -119,7 +119,7 @@ public class SystemService {
     @OnError
     // end::onError[]
     public void onError(Session session, Throwable throwable) {
-    	logger.info("WebSocket error for " + session.getId() + " "
-                           + throwable.getMessage());
+        logger.info("WebSocket error for " + session.getId() + " "
+                    + throwable.getMessage());
     }
 }
