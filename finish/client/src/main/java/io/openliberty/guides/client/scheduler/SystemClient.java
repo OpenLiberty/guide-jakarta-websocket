@@ -14,6 +14,7 @@ package io.openliberty.guides.client.scheduler;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Logger;
 
 import jakarta.websocket.ClientEndpoint;
 import jakarta.websocket.ContainerProvider;
@@ -26,6 +27,8 @@ import jakarta.websocket.WebSocketContainer;
 @ClientEndpoint()
 // end::clientEndpoint[]
 public class SystemClient {
+
+    private static Logger logger = Logger.getLogger(SystemClient.class.getName());
 
     private Session session;
 
@@ -46,20 +49,20 @@ public class SystemClient {
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        System.out.print("Scheduler connected to the server.");
+        logger.info("Scheduler connected to the server.");
     }
     // end::onOpen[]
 
     // tag::onMessage[]
     @OnMessage
     public void onMessage(String message, Session session) throws Exception {
-        System.out.print("Scheduler received message from the server: " + message);
+        logger.info("Scheduler received message from the server: " + message);
     }
     // end::onMessage[]
 
     public void sendMessage(String message) {
         session.getAsyncRemote().sendText(message);
-        System.out.print("Scheduler sent message \"" + message + "\" to the server.");
+        logger.info("Scheduler sent message \"" + message + "\" to the server.");
     }
 
     public void close() {
@@ -68,7 +71,7 @@ public class SystemClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.print("Scheduler closed the session.");
+        logger.info("Scheduler closed the session.");
     }
 
 }
