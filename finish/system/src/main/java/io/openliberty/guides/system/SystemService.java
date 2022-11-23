@@ -76,7 +76,7 @@ public class SystemService {
     // end::onMessage[]
     public void onMessage(String option, Session session) {
         logger.info("Server received message \"" + option + "\" "
-                            + "from session: " + session.getId());
+                    + "from session: " + session.getId());
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("time", Calendar.getInstance().getTime().toString());
@@ -110,7 +110,7 @@ public class SystemService {
     // end::onClose[]
     public void onClose(Session session, CloseReason closeReason) {
         logger.info("Session " + session.getId()
-                           + " was closed with reason " + closeReason.getCloseCode());
+                    + " was closed with reason " + closeReason.getCloseCode());
         sessions.remove(session);
     }
     // end::onCloseMethod[]
