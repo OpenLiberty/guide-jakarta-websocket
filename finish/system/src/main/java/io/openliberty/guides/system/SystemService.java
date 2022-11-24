@@ -67,6 +67,11 @@ public class SystemService {
     public void onOpen(Session session) {
         logger.info("Server connected to session: " + session.getId());
         sessions.add(session);
+        try {
+            session.getBasicRemote().sendObject(session.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     // end::onOpenMethod[]
 
