@@ -34,13 +34,13 @@ Learn how to use Jakarta WebSocket to stream messages between client and server 
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, each client makes a connection over to the server by using HTTP. The server can then broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
+https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, each client makes a connection to a Jakarta WebSocket server by using HTTP. The server can then broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) in that SSE is unidirectional from server to client, whereas WebSocket is bidirectional. WebSocket also enables real-time updates over a smaller bandwidth than SSE.
 
 The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
-image::architecture.png[Application architecture where system and client services uses Jakarta Websocket API to connect and communicate. align="center"]
+image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta WebSocket API to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the `system` service in every 10 seconds. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScript `WebSocket` object in HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use the Jakarta WebSocket API to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the `system` service in every 10 seconds. Then, the `system` service broadcasts messages to clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
@@ -143,9 +143,9 @@ SystemService.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
 
-Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The `@ServerEndpoint` 's `value` attribute specifies the URI where the endpoint will be deployed, the `encoders` attribute for the classes to encode messages, and the `decoders` attribute for classes to decode messages. Provide methods that define the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection by annotating them with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
+Annotate the `SystemService` class with a [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it a WebSocket server. The `@ServerEndpoint`  `value` attribute specifies the URI where the endpoint will be deployed. The `encoders` attribute specifies the classes to encode messages and the `decoders` attribute specifies the classes to decode messages. Provide methods that define the parts of the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection by annotating them with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method that is annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
 
-The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason of closing connection and removes the closing session from the client sessions.
+The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason for closing the connection and removes the closing session from the client sessions.
 
 The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
 
@@ -196,7 +196,7 @@ The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`js
 
 == Creating the client service
 
-In this section, you will create the WebSocket client that communicates with the WebSocket server, the scheduler that uses the WebSocket client to send messages to the server, and an HTML file that uses JavaScript `WebSocket` object to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
+In this section, you will create the WebSocket client that communicates with the WebSocket server and the scheduler that uses the WebSocket client to send messages to the server. You'll also create an HTML file that uses a JavaScript `WebSocket` object to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 On another command-line session, navigate to the `start` directory and run the following goal to start the `client` service in dev mode:
 
@@ -226,7 +226,7 @@ client/SystemClient.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemClient.java[]
 ----
 
-Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Provide a method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. The `onMessage()` method annotated with the [hotspot=onMessage file=0]`@OnMessage` annotation that handles messages from the server.
+Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Provide a method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. The `onMessage()` method that is annotated with the [hotspot=onMessage file=0]`@OnMessage` annotation handles messages from the server.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -241,9 +241,9 @@ SystemLoadScheduler.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. By using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out message for every 10 seconds.
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out message for every 10 seconds.
 
-Now, create the front-end UI where the images and styles for the UI are provided for you. 
+Now, create the front-end UI. The images and styles for the UI are provided for you. 
 
 [role="code_command hotspot file=2", subs="quotes"]
 ----
@@ -258,7 +258,7 @@ index.html
 include::finish/client/src/main/webapp/index.html[]
 ----
 
-The `index.html` front-end UI displays a table, which each row contains a time, system load, and the memory usage of the `system` service. Use JavaScript [hotspot=70 file=2]`WebSocket` object to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=72-74 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=76-85 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=87-89 file=2]`webSocket.onerror` event defines how to tackle errors.
+The `index.html` front-end UI displays a table in which each row contains a time, system load, and the memory usage of the `system` service. Use a JavaScript [hotspot=70 file=2]`WebSocket` object to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=72-74 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=76-85 file=2]`webSocket.onmessage` event receives messages from the server and inserts a row with the data from the message into the table. The [hotspot=87-89 file=2]`webSocket.onerror` event defines how to tackle errors.
 
 // File 3
 client/server.xml
@@ -275,11 +275,11 @@ The required features for the `client` service have been enabled for you in the 
 
 == Running the application
 
-Because you are running the `system` and `client` services in dev mode, the changes that you made were automatically picked up. You're now ready to check out your application in your browser.
+Because you are running the `system` and `client` services in dev mode, the changes that you made are automatically picked up. You're now ready to check out your application in your browser.
 
-Point your browser to the http://localhost:9080 URL to test out the `client` service. See that the table is being updated for every 10 seconds.
+Point your browser to the http://localhost:9080 URL to test out the `client` service. Notice that the table is updated every 10 seconds.
 
-Visit http://localhost:9080 URL again on a different tab or browser and verify that both sessions are being updated for every 10 seconds.
+Visit the http://localhost:9080 URL again on a different tab or browser and verify that both sessions are updated every 10 seconds.
 
 // =================================================================================================
 // Testing the application
