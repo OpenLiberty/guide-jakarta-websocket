@@ -226,7 +226,7 @@ client/SystemClient.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemClient.java[]
 ----
 
-Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Provide a method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. The `onMessage()` method annotated with the [hotspot=onMessage file=0]`@OnMessage` annotation handles messages from the server.
+Annotate the `SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Provide a method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. The `onMessage()` method that is annotated with the [hotspot=onMessage file=0]`@OnMessage` annotation handles messages from the server.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
