@@ -21,12 +21,12 @@
 :page-seo-description: A getting started tutorial with examples on how to stream messages to front-end clients from a cloud-native Java application by using Jakarta WebSocket.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming messages between client and server using Jakarta WebSocket
+= Bidirectional communication between services using Jakarta WebSocket
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to use Jakarta WebSocket to stream messages between client and server services.
+Learn how to use Jakarta WebSocket to send and receive messages between services without closing the connection.
 
 // =================================================================================================
 //  What you'll learn
@@ -34,13 +34,13 @@ Learn how to use Jakarta WebSocket to stream messages between client and server 
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, each client makes a connection to a Jakarta WebSocket server by using HTTP. The server can then broadcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) in that SSE is unidirectional from server to client, whereas WebSocket is bidirectional. WebSocket also enables real-time updates over a smaller bandwidth than SSE.
+Jakarta WebSocket enables dual communication between client and server endpoints. First, each client makes an HTTP connection to a Jakarta WebSocket server. The server can then broadcast messages to the clients. link:https://openliberty.io/guides/reactive-messaging-sse.html[Server-Sent Events (SSE)] also enables a client to receive automatic updates from a server via an HTTP connection however WebSocket differs from Server-Sent Events in that SSE is unidirectional from server to client, whereas WebSocket is bidirectional. WebSocket also enables real-time updates over a smaller bandwidth than SSE. The connection isn't closed meaning that the client can continue to send and receive messages with the server, without having to poll the server to receive any replies.
 
 The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
 image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate. align="center"]
 
-You'll learn how to use the Jakarta WebSocket API to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the `system` service in every 10 seconds. Then, the `system` service broadcasts messages to clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/websocket/package-frame.html&class=overview-summary.html[Jakarta WebSocket API] to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the system service every 10 seconds, then the system service broadcasts the messages to any connected clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
@@ -113,14 +113,14 @@ cd /home/project/draft-guide-jakarta-websocket/start
 ```
 endif::[]
 
-When you run Open Liberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
+When you run Open Liberty in dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
 
 [role='command']
 ```
 mvn -pl system liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready:
+After you see the following message, your runtime in dev mode is ready:
 
 [source, role="no_copy"]
 ----
@@ -205,7 +205,7 @@ On another command-line session, navigate to the `start` directory and run the f
 mvn -pl client liberty:dev
 ```
 
-After you see the following message, your application server in dev mode is ready:
+After you see the following message, your runtime in dev mode is ready:
 
 [source, role="no_copy"]
 ----
@@ -241,7 +241,7 @@ SystemLoadScheduler.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/ejb/package-frame.html&class=jakarta/ejb/TimerService.html[Jakarta Enterprise Beans Timer Service^], annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
 
 Now, create the front-end UI. The images and styles for the UI are provided for you. 
 
