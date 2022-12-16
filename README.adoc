@@ -9,16 +9,16 @@
 :projectid: jakarta-websocket
 :page-layout: guide-multipane
 :page-duration: 25 minutes
-:page-releasedate: 2022-12-08
+:page-releasedate: 2022-12-16
 :page-essential: false
-:page-description: Learn how to use Jakarta WebSocket API to stream messages between client and server services.
+:page-description: Learn how to use Jakarta WebSocket to stream messages between client and server services.
 :guide-author: Open Liberty
 :page-tags: ['Jakarta EE']
 :page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
-:page-seo-title: Streaming messages to communicate clients and server services using Jakarta WebSocket
-:page-seo-description: A getting started tutorial with examples on how to stream messages to front-end clients from a cloud-native Java application by using Jakarta WebSocket.
+:page-seo-title: Streaming messages between client and server services using Jakarta WebSocket
+:page-seo-description: A getting started tutorial with examples on how to stream messages between frontend clients and backend services for full-duplex communication in Java using Jakarta WebSocket API.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 = Bidirectional communication between services using Jakarta WebSocket
@@ -34,7 +34,7 @@ Learn how to use Jakarta WebSocket to send and receive messages between services
 
 == What you'll learn
 
-Jakarta WebSocket enables dual communication between client and server endpoints. First, each client makes an HTTP connection to a Jakarta WebSocket server. The server can then broadcast messages to the clients. link:https://openliberty.io/guides/reactive-messaging-sse.html[Server-Sent Events (SSE)] also enables a client to receive automatic updates from a server via an HTTP connection however WebSocket differs from Server-Sent Events in that SSE is unidirectional from server to client, whereas WebSocket is bidirectional. WebSocket also enables real-time updates over a smaller bandwidth than SSE. The connection isn't closed meaning that the client can continue to send and receive messages with the server, without having to poll the server to receive any replies.
+Jakarta WebSocket enables two-way communication between client and server endpoints. First, each client makes an HTTP connection to a Jakarta WebSocket server. The server can then broadcast messages to the clients. link:https://openliberty.io/guides/reactive-messaging-sse.html[Server-Sent Events (SSE)] also enables a client to receive automatic updates from a server via an HTTP connection however WebSocket differs from Server-Sent Events in that SSE is unidirectional from server to client, whereas WebSocket is bidirectional. WebSocket also enables real-time updates over a smaller bandwidth than SSE. The connection isn't closed meaning that the client can continue to send and receive messages with the server, without having to poll the server to receive any replies.
 
 The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
