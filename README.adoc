@@ -97,7 +97,7 @@ Navigate to the `start` directory to begin.
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-jakarta-websocket/start
+cd /home/project/guide-jakarta-websocket/start
 ```
 endif::[]
 
@@ -334,7 +334,7 @@ endif::[]
 // cloud hosted instruction
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-jakarta-websocket/start
+cd /home/project/guide-jakarta-websocket/start
 mvn -pl system liberty:stop
 mvn -pl client liberty:stop
 ```
