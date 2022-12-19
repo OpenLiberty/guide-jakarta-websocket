@@ -38,7 +38,7 @@ Jakarta WebSocket enables two-way communication between client and server endpoi
 
 The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
-image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate. align="center"]
+image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate.,align="center"]
 
 You'll learn how to use the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/websocket/package-frame.html&class=overview-summary.html[Jakarta WebSocket API^] to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the system service every 10 seconds, then the system service broadcasts the messages to any connected clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
