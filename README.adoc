@@ -38,27 +38,15 @@ Jakarta WebSocket enables two-way communication between client and server endpoi
 
 The application that you will build in this guide consists of the `client` service and the `system` server service. The following diagram depicts the application that is used in this guide. 
 
-image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate. align="center"]
+image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate.,align="center"]
 
 You'll learn how to use the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/websocket/package-frame.html&class=overview-summary.html[Jakarta WebSocket API^] to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the system service every 10 seconds, then the system service broadcasts the messages to any connected clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
 // =================================================================================================
-
-== Getting started
-
-The fastest way to work through this guide is to clone the Git repository and use the projects that are provided inside:
-
 [role='command']
-```
-git clone https://github.com/openliberty/draft-guide-jakarta-websocket.git
-cd draft-guide-jakarta-websocket
-```
-
-The `start` directory contains the starting project that you will build upon. 
-
-The `finish` directory contains the finished project you will build. 
+include::{common-includes}/gitclone.adoc[]
 
 === Try what you'll build
 
@@ -109,7 +97,7 @@ Navigate to the `start` directory to begin.
 // cloud-hosted guide instructions:
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-jakarta-websocket/start
+cd /home/project/guide-jakarta-websocket/start
 ```
 endif::[]
 
@@ -346,7 +334,7 @@ endif::[]
 // cloud hosted instruction
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-jakarta-websocket/start
+cd /home/project/guide-jakarta-websocket/start
 mvn -pl system liberty:stop
 mvn -pl client liberty:stop
 ```
