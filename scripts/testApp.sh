@@ -7,11 +7,11 @@ set -euxo pipefail
 ##
 ##############################################################################
 
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -ntp -pl system -q clean package liberty:create liberty:install-feature liberty:deploy
-mvn -Dhttp.keepAlive=false \
+mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -ntp -pl client -q clean package liberty:create liberty:install-feature liberty:deploy
