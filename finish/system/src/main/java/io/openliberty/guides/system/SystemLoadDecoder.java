@@ -34,7 +34,7 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
             return error;
         }
     }
-    // end::decode[]    
+    // end::decode[]
 
     @Override
     // tag::willDecode[]
