@@ -72,7 +72,7 @@ public class SystemServiceIT {
     public static void verify(JsonObject systemLoad) {
         assertNotNull(systemLoad.getString("time"));
         assertTrue(
-            systemLoad.getJsonNumber("loadAverage") != null 
+            systemLoad.getJsonNumber("loadAverage") != null
             ||
             systemLoad.getJsonNumber("memoryUsage") != null
         );
