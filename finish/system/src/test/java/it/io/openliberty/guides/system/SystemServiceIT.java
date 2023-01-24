@@ -1,12 +1,13 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2022, 2023 IBM Corporation and others.
+ * Copyright (c) 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License 2.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-2.0/
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * SPDX-License-Identifier: EPL-2.0
+ * Contributors:
+ *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
 package it.io.openliberty.guides.system;
@@ -36,7 +37,7 @@ public class SystemServiceIT {
     @Order(1)
     public void testSystem() throws Exception {
         startCountDown(1);
-        URI uri = new URI("ws://localhost:9081/systemLoad");
+        URI uri = new URI( "ws://localhost:9081/systemLoad" );
         SystemClient client = new SystemClient(uri);
         client.sendMessage("both");
         countDown.await(5, TimeUnit.SECONDS);
@@ -51,7 +52,7 @@ public class SystemServiceIT {
     @Order(2)
     public void testSystemMultipleSessions() throws Exception {
         startCountDown(3);
-        URI uri = new URI("ws://localhost:9081/systemLoad");
+        URI uri = new URI( "ws://localhost:9081/systemLoad" );
         SystemClient client1 = new SystemClient(uri);
         SystemClient client2 = new SystemClient(uri);
         SystemClient client3 = new SystemClient(uri);
@@ -72,8 +73,8 @@ public class SystemServiceIT {
     public static void verify(JsonObject systemLoad) {
         assertNotNull(systemLoad.getString("time"));
         assertTrue(
-            systemLoad.getJsonNumber("loadAverage") != null
-            || systemLoad.getJsonNumber("memoryUsage") != null
+            systemLoad.getJsonNumber("loadAverage") != null ||
+            systemLoad.getJsonNumber("memoryUsage") != null
         );
         countDown.countDown();
     }
