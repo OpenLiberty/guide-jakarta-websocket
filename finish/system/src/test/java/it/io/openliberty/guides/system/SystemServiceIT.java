@@ -36,7 +36,7 @@ public class SystemServiceIT {
     @Order(1)
     public void testSystem() throws Exception {
         startCountDown(1);
-        URI uri = new URI( "ws://localhost:9081/systemLoad" );
+        URI uri = new URI("ws://localhost:9081/systemLoad");
         SystemClient client = new SystemClient(uri);
         client.sendMessage("both");
         countDown.await(5, TimeUnit.SECONDS);
@@ -51,7 +51,7 @@ public class SystemServiceIT {
     @Order(2)
     public void testSystemMultipleSessions() throws Exception {
         startCountDown(3);
-        URI uri = new URI( "ws://localhost:9081/systemLoad" );
+        URI uri = new URI("ws://localhost:9081/systemLoad");
         SystemClient client1 = new SystemClient(uri);
         SystemClient client2 = new SystemClient(uri);
         SystemClient client3 = new SystemClient(uri);
@@ -72,7 +72,8 @@ public class SystemServiceIT {
     public static void verify(JsonObject systemLoad) {
         assertNotNull(systemLoad.getString("time"));
         assertTrue(
-            systemLoad.getJsonNumber("loadAverage") != null ||
+            systemLoad.getJsonNumber("loadAverage") != null 
+            ||
             systemLoad.getJsonNumber("memoryUsage") != null
         );
         countDown.countDown();
