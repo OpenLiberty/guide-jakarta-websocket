@@ -73,8 +73,7 @@ public class SystemServiceIT {
         assertNotNull(systemLoad.getString("time"));
         assertTrue(
             systemLoad.getJsonNumber("loadAverage") != null
-            ||
-            systemLoad.getJsonNumber("memoryUsage") != null
+            || systemLoad.getJsonNumber("memoryUsage") != null
         );
         countDown.countDown();
     }
