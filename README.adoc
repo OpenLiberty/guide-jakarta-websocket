@@ -1,4 +1,4 @@
-//  Copyright (c) 2022 IBM Corporation and others.
+//  Copyright (c) 2022, 2023 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -83,7 +83,7 @@ After you are finished checking out the application, stop both the `system` and 
 mvn -pl system liberty:stop
 mvn -pl client liberty:stop
 ----
-
+ 
 // =================================================================================================
 // Creating the WebSocket server service
 // =================================================================================================
