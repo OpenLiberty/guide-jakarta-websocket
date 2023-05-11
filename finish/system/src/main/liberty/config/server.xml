@@ -2,10 +2,10 @@
 
     <featureManager>
         <!-- tag::webSocket[] -->
-        <feature>websocket-2.0</feature>
+        <feature>websocket-2.1</feature>
         <!-- end::webSocket[] -->
         <!-- tag::jsonB[] -->
-        <feature>jsonb-2.0</feature>
+        <feature>jsonb-3.0</feature>
         <!-- end::jsonB[] -->
     </featureManager>
 
