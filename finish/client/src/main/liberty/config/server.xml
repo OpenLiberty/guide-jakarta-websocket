@@ -2,8 +2,8 @@
 
     <featureManager>
         <!-- tag::features[] -->
-        <feature>restfulWS-3.0</feature>
-        <feature>websocket-2.0</feature>
+        <feature>restfulWS-3.1</feature>
+        <feature>websocket-2.1</feature>
         <feature>enterpriseBeansLite-4.0</feature>
         <!-- end::features[] -->
     </featureManager>
