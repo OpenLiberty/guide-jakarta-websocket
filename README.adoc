@@ -101,7 +101,7 @@ cd /home/project/guide-jakarta-websocket/start
 ```
 endif::[]
 
-When you run Open Liberty in dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
+When you run Open Liberty in https://openliberty.io/docs/latest/development-mode.html[dev mode^], the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
 
 [role='command']
 ```
