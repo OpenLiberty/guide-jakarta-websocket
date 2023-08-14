@@ -176,7 +176,7 @@ system/server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features for the `system` service have been enabled for you in the `server.xml` configuration file.
+The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features for the `system` service have been enabled for you in the Liberty `server.xml` configuration file.
 
 // =================================================================================================
 // Creating the client service
@@ -255,7 +255,7 @@ client/server.xml
 include::finish/client/src/main/liberty/config/server.xml[]
 ----
 
-The required features for the `client` service are enabled for you in the [hotspot=features file=3]`server.xml` configuration file.
+The required features for the `client` service are enabled for you in the Liberty [hotspot=features file=3]`server.xml` configuration file.
 
 // =================================================================================================
 // Running the application
