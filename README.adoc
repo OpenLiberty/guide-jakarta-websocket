@@ -108,7 +108,7 @@ When you run Open Liberty in https://openliberty.io/docs/latest/development-mode
 mvn -pl system liberty:dev
 ```
 
-After you see the following message, your runtime in dev mode is ready:
+After you see the following message, your Liberty instance is ready in dev mode:
 
 [source, role="no_copy"]
 ----
@@ -193,7 +193,7 @@ On another command-line session, navigate to the `start` directory and run the f
 mvn -pl client liberty:dev
 ```
 
-After you see the following message, your runtime in dev mode is ready:
+After you see the following message, your Liberty instance is ready in dev mode:
 
 [source, role="no_copy"]
 ----
