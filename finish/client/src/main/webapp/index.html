@@ -40,6 +40,7 @@
                     </div>
                     <div class="headerTitle" id="sysPropTitle">
                       <h2>System Loads</h2>
+                      <p id="SessionTitle" >Session:</p>
                     </div>
                 </div>
                 <div class="sectionContent">
@@ -74,7 +75,11 @@
     };
 
     webSocket.onmessage = function (event) {
-        var data = JSON.parse(event.data);
+        try {
+            var data = JSON.parse(event.data);
+        } catch (e) {
+            document.getElementById('SessionTitle').innerHTML = "Session: " + event.data;
+        }
         var tableRow = document.createElement('tr');
         var loadAverage = data.loadAverage == null ? '-' : data.loadAverage.toFixed(2);
         var memoryUsage = data.memoryUsage == null ? '-' : data.memoryUsage.toFixed(2);
