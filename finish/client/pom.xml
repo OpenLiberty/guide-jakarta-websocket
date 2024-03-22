@@ -33,7 +33,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <packagingExcludes>pom.xml</packagingExcludes>
                 </configuration>
@@ -43,7 +43,7 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.10</version>
+                <version>3.10.2</version>
             </plugin>
         </plugins>
     </build>
