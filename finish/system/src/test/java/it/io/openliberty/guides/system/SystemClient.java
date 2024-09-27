@@ -45,8 +45,10 @@ public class SystemClient {
     @OnMessage
     public void onMessage(String message, Session userSession) throws Exception {
         SystemLoadDecoder decoder = new SystemLoadDecoder();
-        JsonObject systemLoad = decoder.decode(message);
-        SystemServiceIT.verify(systemLoad);
+        if (decoder.willDecode(message)) {
+            JsonObject systemLoad = decoder.decode(message);
+            SystemServiceIT.verify(systemLoad);
+        }
     }
     // end::onMessage[]
 
