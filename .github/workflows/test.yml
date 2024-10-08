@@ -32,6 +32,7 @@ jobs:
           VALIDATE_DOCKERFILE: true
           VALIDATE_JAVA: true
           VALIDATE_YAML: true
+          VALIDATE_CSS: false
       - name: Summary
         if: "! github.event.pull_request.head.repo.fork"
         run: |
