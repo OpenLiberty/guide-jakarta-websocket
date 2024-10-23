@@ -13,7 +13,6 @@ package io.openliberty.guides.system;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +29,8 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
+import com.sun.management.OperatingSystemMXBean;
+
 // tag::serverEndpoint[]
 @ServerEndpoint(value = "/systemLoad",
                 decoders = { SystemLoadDecoder.class },
@@ -42,7 +43,7 @@ public class SystemService {
     private static Set<Session> sessions = new HashSet<>();
 
     private static final OperatingSystemMXBean OS =
-        ManagementFactory.getOperatingSystemMXBean();
+        (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
     private static final MemoryMXBean MEM =
         ManagementFactory.getMemoryMXBean();
@@ -79,11 +80,11 @@ public class SystemService {
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("time", Calendar.getInstance().getTime().toString());
-            // tag::loadAverage[]
-            if (option.equalsIgnoreCase("loadAverage")
+            // tag::cpuLoad[]
+            if (option.equalsIgnoreCase("cpuLoad")
                 || option.equalsIgnoreCase("both")) {
-            // end::loadAverage[]
-                builder.add("loadAverage", Double.valueOf(OS.getSystemLoadAverage()));
+            // end::cpuLoad[]
+                builder.add("cpuLoad", Double.valueOf(OS.getCpuLoad() * 100.0));
             }
             // tag::memoryUsageOrBoth[]
             if (option.equalsIgnoreCase("memoryUsage")
