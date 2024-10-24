@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2023 IBM Corporation and others.
+//  Copyright (c) 2022, 2024 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -13,7 +13,7 @@
 :page-essential: false
 :page-description: Learn how to use Jakarta WebSocket to stream messages between client and server services.
 :guide-author: Open Liberty
-:page-tags: ['Jakarta EE']
+:page-tags: ['jakarta-ee']
 :page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
@@ -135,7 +135,7 @@ Annotate the `SystemService` class with a [hotspot=serverEndpoint file=0]`@Serve
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason for closing the connection and removes the closing session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=cpuLoad hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -229,7 +229,7 @@ SystemLoadScheduler.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/ejb/package-frame.html&class=jakarta/ejb/TimerService.html[Jakarta Enterprise Beans Timer Service^], annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`cpuLoad`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/ejb/package-frame.html&class=jakarta/ejb/TimerService.html[Jakarta Enterprise Beans Timer Service^], annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
 
 Now, create the front-end UI. The images and styles for the UI are provided for you. 
 

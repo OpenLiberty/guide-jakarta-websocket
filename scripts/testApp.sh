@@ -25,9 +25,9 @@ mvn -Dhttp.keepAlive=false \
     -ntp -pl system failsafe:integration-test
 
 sleep 20
-grep loadAverage client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || \
+grep cpuLoad client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || \
 sleep 20 || \
-grep loadAverage client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1
+grep cpuLoad client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1
 grep memoryUsage client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || \
 sleep 20 || \
 grep memoryUsage client/target/liberty/wlp/usr/servers/defaultServer/logs/messages.log || exit 1

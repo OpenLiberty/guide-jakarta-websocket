@@ -55,7 +55,7 @@ public class SystemServiceIT {
         SystemClient client1 = new SystemClient(uri);
         SystemClient client2 = new SystemClient(uri);
         SystemClient client3 = new SystemClient(uri);
-        client2.sendMessage("loadAverage");
+        client2.sendMessage("cpuLoad");
         countDown.await(5, TimeUnit.SECONDS);
         client1.close();
         client2.close();
@@ -72,7 +72,7 @@ public class SystemServiceIT {
     public static void verify(JsonObject systemLoad) {
         assertNotNull(systemLoad.getString("time"));
         assertTrue(
-            systemLoad.getJsonNumber("loadAverage") != null
+            systemLoad.getJsonNumber("cpuLoad") != null
             || systemLoad.getJsonNumber("memoryUsage") != null
         );
         countDown.countDown();
