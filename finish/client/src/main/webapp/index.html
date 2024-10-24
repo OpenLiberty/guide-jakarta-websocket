@@ -77,7 +77,7 @@
     webSocket.onmessage = function (event) {
         var data = JSON.parse(event.data);
         var tableRow = document.createElement('tr');
-        var cpuLoad = data.cpuLoad == null ? '-' : data.cpuLoad.toFixed(2);
+        var cpuLoad = data.cpuLoad == null ? '-' : data.cpuLoad.toFixed(7);
         var memoryUsage = data.memoryUsage == null ? '-' : data.memoryUsage.toFixed(2);
         tableRow.innerHTML = '<td>' + data.time + '</td>' +
                              '<td>' + cpuLoad + '</td>' +
