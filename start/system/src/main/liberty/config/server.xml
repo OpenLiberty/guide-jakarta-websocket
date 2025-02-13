@@ -1,11 +1,12 @@
 <server description="system Service">
 
     <featureManager>
+        <platform>jakartaee-10.0</platform>
         <!-- tag::webSocket[] -->
-        <feature>websocket-2.1</feature>
+        <feature>websocket</feature>
         <!-- end::webSocket[] -->
         <!-- tag::jsonB[] -->
-        <feature>jsonb-3.0</feature>
+        <feature>jsonb</feature>
         <!-- end::jsonB[] -->
     </featureManager>
 
