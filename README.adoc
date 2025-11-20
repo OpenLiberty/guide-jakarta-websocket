@@ -1,4 +1,4 @@
-//  Copyright (c) 2022, 2023 IBM Corporation and others.
+//  Copyright (c) 2022, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -13,7 +13,7 @@
 :page-essential: false
 :page-description: Learn how to use Jakarta WebSocket to stream messages between client and server services.
 :guide-author: Open Liberty
-:page-tags: ['Jakarta EE']
+:page-tags: ['jakarta-ee']
 :page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
@@ -40,7 +40,7 @@ The application that you will build in this guide consists of the `client` servi
 
 image::architecture.png[Application architecture where system and client services use the Jakarta Websocket API to connect and communicate.,align="center"]
 
-You'll learn how to use the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/websocket/package-frame.html&class=overview-summary.html[Jakarta WebSocket API^] to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the system service every 10 seconds, then the system service broadcasts the messages to any connected clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee10-javadoc.html?path=liberty-jakartaee10-javadoc/jakarta/websocket/package-summary.html[Jakarta WebSocket API^] to build the `system` service and the scheduler in the `client` service. The scheduler pushes messages to the system service every 10 seconds, then the system service broadcasts the messages to any connected clients. You will also learn how to use a JavaScript `WebSocket` object in an HTML file to build a WebSocket connection, subscribe to different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
@@ -54,18 +54,59 @@ The `finish` directory in the root of this guide contains the finished applicati
 
 To try out the application, go to the finish directory and run the following Maven goal to build the `system` service and deploy it to Open Liberty:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn -pl system liberty:run
-
+mvnw.cmd -pl system liberty:run
 ```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:run
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:run
+```
+--
 
 Next, open another command-line session and run the following command to start the `client` service:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn -pl client liberty:run
+mvnw.cmd -pl client liberty:run
 ```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -pl client liberty:run
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -pl client liberty:run
+```
+--
 
 After you see the following message in both command-line sessions, both your services are ready.
 
@@ -78,11 +119,34 @@ Check out the service at the http://localhost:9080 URL. See that the table is be
 
 After you are finished checking out the application, stop both the `system` and `client` services by pressing `CTRL+C` in the command-line sessions where you ran them. Alternatively, you can run the following goals from the `finish` directory in another command-line session:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
-----
-mvn -pl system liberty:stop
-mvn -pl client liberty:stop
-----
+```
+mvnw.cmd -pl system liberty:stop
+mvnw.cmd -pl client liberty:stop
+```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:stop
+./mvnw -pl client liberty:stop
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:stop
+./mvnw -pl client liberty:stop
+```
+--
  
 // =================================================================================================
 // Creating the WebSocket server service
@@ -103,10 +167,31 @@ endif::[]
 
 When you run Open Liberty in https://openliberty.io/docs/latest/development-mode.html[dev mode^], dev mode listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn -pl system liberty:dev
+mvnw.cmd -pl system liberty:dev
 ```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:dev
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -pl system liberty:dev
+```
+--
 
 After you see the following message, your Liberty instance is ready in dev mode:
 
@@ -135,7 +220,7 @@ Annotate the `SystemService` class with a [hotspot=serverEndpoint file=0]`@Serve
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason for closing the connection and removes the closing session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when receiving a message through the `option` parameter. The [hotspot=cpuLoad hotspot=memoryUsageOrBoth file=0]`option` parameter signifies which message to construct, either system load, memory usage data, or both, and sends out the [hotspot=sendToAllSessions file=0]`JsonObject` message. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the WebSocket API to broadcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -188,10 +273,31 @@ In this section, you will create the WebSocket client that communicates with the
 
 On another command-line session, navigate to the `start` directory and run the following goal to start the `client` service in dev mode:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-mvn -pl client liberty:dev
+mvnw.cmd -pl client liberty:dev
 ```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+./mvnw -pl client liberty:dev
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+./mvnw -pl client liberty:dev
+```
+--
 
 After you see the following message, your Liberty instance is ready in dev mode:
 
@@ -229,7 +335,7 @@ SystemLoadScheduler.java
 include::finish/client/src/main/java/io/openliberty/guides/client/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee9.1-javadoc.html?package=jakarta/ejb/package-frame.html&class=jakarta/ejb/TimerService.html[Jakarta Enterprise Beans Timer Service^], annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`cpuLoad`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. Using the link:https://openliberty.io/docs/latest/reference/javadoc/liberty-jakartaee10-javadoc.html?path=liberty-jakartaee10-javadoc/jakarta/ejb/Schedule.html[Jakarta Enterprise Beans Schedule^], annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation so that it sends out a message every 10 seconds.
 
 Now, create the front-end UI. The images and styles for the UI are provided for you. 
 

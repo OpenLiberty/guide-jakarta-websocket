@@ -1,6 +1,6 @@
 <!-- tag::copyright[] -->
 <!--
-  Copyright (c) 2022, 2023 IBM Corp.
+  Copyright (c) 2022, 2024 IBM Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,8 +19,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Open Liberty System Load</title>
-        <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+        <title>Open Liberty - Jakarta WebSocket Example</title>
         <link rel="stylesheet" href="css/styles.css">
         <link href="favicon.ico" rel="icon" />
         <link href="favicon.ico" rel="shortcut icon" />
@@ -28,7 +27,7 @@
     <body>
         <section id="appIntro">
             <div id="titleSection">
-                <h1 id="appTitle">Open Liberty System Load</h1>
+                <h1 id="appTitle">Jakarta WebSocket Example</h1>
                 <div class="line"></div>
                 <div class="headerImage"></div>
             </div>
@@ -47,8 +46,9 @@
                     <table id="systemLoadsTable">
                         <tbody id="systemLoadsTableBody">
                             <tr>
-                                <th>Time</th><th>System Load</th>
-                                <th>Memory Usage (%)</th>
+                                <th>Time</th>
+                                <th>CPU Load (%)</th>
+                                <th>Heap Memory Usage (%)</th>
                             </tr>
                         </tbody>
                     </table>
@@ -60,12 +60,13 @@
                 <a id="licenseLink"
                    href="https://github.com/OpenLiberty/open-liberty/blob/release/LICENSE"
                 >License</a>
-                <a href="https://twitter.com/OpenLibertyIO">Twitter</a>
                 <a href="https://github.com/OpenLiberty">GitHub</a>
+                <a href="https://stackoverflow.com/questions/tagged/open-liberty">stackoverflow</a>
+                <a href="https://groups.io/g/openliberty">groups.io</a>
                 <a href="https://openliberty.io/">openliberty.io</a>
             </div>
             <p id="footer_text">an IBM open source project</p>
-            <p id="footer_copyright">&copy;Copyright IBM Corp. 2022, 2023</p>
+            <p id="footer_copyright">&copy;Copyright IBM Corp. 2022, 2024</p>
         </footer>
         <script>
     const webSocket = new WebSocket('ws://localhost:9081/systemLoad')
@@ -81,10 +82,10 @@
             document.getElementById('SessionTitle').innerHTML = "Session: " + event.data;
         }
         var tableRow = document.createElement('tr');
-        var loadAverage = data.loadAverage == null ? '-' : data.loadAverage.toFixed(2);
+        var cpuLoad = data.cpuLoad == null ? '-' : data.cpuLoad.toFixed(7);
         var memoryUsage = data.memoryUsage == null ? '-' : data.memoryUsage.toFixed(2);
         tableRow.innerHTML = '<td>' + data.time + '</td>' +
-                             '<td>' + loadAverage + '</td>' +
+                             '<td>' + cpuLoad + '</td>' +
                              '<td>' + memoryUsage + '</td>';
         document.getElementById('systemLoadsTableBody').appendChild(tableRow);
     };
