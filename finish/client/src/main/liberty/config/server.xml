@@ -1,7 +1,7 @@
 <server description="client service">
 
     <featureManager>
-        <platform>jakartaee-10.0</platform>
+        <platform>jakartaee-11.0</platform>
         <!-- tag::features[] -->
         <feature>restfulWS</feature>
         <feature>websocket</feature>
